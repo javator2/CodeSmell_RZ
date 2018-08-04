@@ -12,14 +12,14 @@ public class Pub {
 
     public int computeCost(String drink, boolean student, int amount) {
 
-        if(amount > 2 && Menu.getTypesOfDrinks().get(TypeOfDrink.DRINK).contains(drink)) throw new RuntimeException("Too many drinks, max 2.");
         if(!Menu.getMenu().containsKey(drink)) throw new RuntimeException("No such drink exists");
+        if(amount > 2 && Menu.getTypesOfDrinks().get(TypeOfDrink.DRINK).contains(drink)) throw new RuntimeException("Too many drinks, max 2.");
 
         int price = Menu.getMenu().get(drink).stream().mapToInt(Integer::intValue).sum();
 
         TypeOfDrink typeOfDrink = getDrinkTypeByName(drink);
         if (student && (typeOfDrink == TypeOfDrink.BEER || typeOfDrink == TypeOfDrink.CIDER)) {
-            price = price - price / STUDENT_DISCOUNT;
+            price -= (price / STUDENT_DISCOUNT);
         }
         return price*amount;
     }
